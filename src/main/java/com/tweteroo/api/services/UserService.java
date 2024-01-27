@@ -1,6 +1,9 @@
 package com.tweteroo.api.services;
 
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.tweteroo.api.dtos.UserDTO;
 import com.tweteroo.api.models.UserModel;
@@ -15,7 +18,11 @@ public class UserService {
   }
   
   public UserModel save(UserDTO dto) {
-    UserModel user = new UserModel(dto);
-    return userRepository.save(user);
+    try{
+      UserModel user = new UserModel(dto);
+      return userRepository.save(user);
+    }catch (DataIntegrityViolationException e){
+      throw new ResponseStatusException(HttpStatus.CONFLICT);
+    }
 }
 }
