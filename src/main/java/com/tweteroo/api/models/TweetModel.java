@@ -1,5 +1,7 @@
 package com.tweteroo.api.models;
 
+import com.tweteroo.api.dtos.TweetDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +21,17 @@ import lombok.NoArgsConstructor;
 @Table(name = "tweet")
 public class TweetModel {
 
+  public TweetModel(TweetDTO dto){
+    this.text = dto.getTweet();
+    this.user = new UserModel();
+    this.user.setId(dto.getUserId());
+  }
+
+  public TweetModel(TweetDTO dto, UserModel user){
+    this.text = dto.getTweet();
+    this.user = user;
+  }
+
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
@@ -27,6 +40,6 @@ public class TweetModel {
   private String text;
 
   @ManyToOne
-  @JoinColumn(name = "user_id")
-  private UserModel userModel;
+  @JoinColumn(name = "userId")
+  private UserModel user;
 }

@@ -26,5 +26,6 @@ public class UserController {
   public ResponseEntity<UserModel> createUser(@RequestBody @Valid UserDTO body){
     UserModel user = userService.save(body);
     return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    
   }
 }
